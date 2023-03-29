@@ -1,5 +1,8 @@
 package controllers.admin;
 
+
+
+import domain_models.SanPham;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,8 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+
 import repository.SanPhamRepository;
-import view_model.QLKhachHang;
+
 import view_model.QLSanPham;
 
 
@@ -30,9 +34,7 @@ public class SanPhamController extends HttpServlet {
 
     public SanPhamController()
     {
-        this.spRepo = new SanPhamRepository();
-        this.spRepo.insert(new QLSanPham("PH1", "Tong Thong"));
-        this.spRepo.insert(new QLSanPham("PH2", "Dan Den"));
+        spRepo = new SanPhamRepository();
     }
 
     @Override
@@ -75,35 +77,36 @@ public class SanPhamController extends HttpServlet {
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLSanPham sp = spRepo.findByMa(ma);
+        SanPham sp = spRepo.findByMa(ma);
         request.setAttribute("sp", sp);
         request.setAttribute("view", "/views/san_pham/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLSanPham sp = spRepo.findByMa(ma);
+        SanPham sp = spRepo.findByMa(ma);
         spRepo.delete(sp);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/san-pham/index");
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ma = request.getParameter("ma");
-        String ten = request.getParameter("ten");
-
-
-
-        QLSanPham qlsp = new QLSanPham(ma,ten);
-        //Tộ ArrayList & thêm vào
-        spRepo.insert(qlsp);
-//        System.out.println(list);
+        try {
+            SanPham domainModelSP = new SanPham();
+            BeanUtils.populate(domainModelSP, request.getParameterMap());
+            this.spRepo.insert(domainModelSP);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/san-pham/index");
     }
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLSanPham qlsp = new QLSanPham();
-            BeanUtils.populate(qlsp, request.getParameterMap());
-            spRepo.update(qlsp);
+            String ma = request.getParameter("ma");
+            SanPham domainModelSP = spRepo.findByMa(ma);
+            BeanUtils.populate(domainModelSP, request.getParameterMap());
+            spRepo.update(domainModelSP);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

@@ -28,19 +28,19 @@
                     <tr>
                         <td>${ kh.ma }</td>
                         <td>${ kh.ho }</td>
-                        <td>${ kh.ten_dem}</td>
+                        <td>${ kh.tenDem}</td>
                         <td>${ kh.ten }</td>
-                        <td>${ kh.ngay_sinh }</td>
+                        <td>${ kh.ngaySinh }</td>
                         <td>${ kh.sdt }</td>
-                        <td>${ kh.dia_chi }</td>
-                        <td>${ kh.mat_khau }</td>
+                        <td>${ kh.diaChi }</td>
+                        <td>${ kh.matKhau }</td>
                         <td>
-                            <c:if test ="${kh.quoc_gia == 'vi'}" >Việt Nam</c:if>
-                            <c:if test ="${kh.quoc_gia == 'us'}" >Mỹ</c:if>
+                            <c:if test ="${kh.quocGia == 'vi'}" >Việt Nam</c:if>
+                            <c:if test ="${kh.quocGia == 'us'}" >Mỹ</c:if>
                         </td>
                         <td>
-                            <c:if test ="${kh.thanh_pho == 'hn'}" >Hà Nội</c:if>
-                            <c:if test ="${kh.thanh_pho == 'ny'}" >New York</c:if>
+                            <c:if test ="${kh.thanhPho == 'hn'}" >Hà Nội</c:if>
+                            <c:if test ="${kh.thanhPho == 'ny'}" >New York</c:if>
                         </td>
 
 

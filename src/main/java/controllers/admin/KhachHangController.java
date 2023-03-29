@@ -1,11 +1,12 @@
 package controllers.admin;
 
+import domain_models.KhachHang;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.apache.commons.beanutils.BeanUtils;
 import repository.KhachHangRepository;
-import view_model.QLKhachHang;
+
 
 
 import java.io.IOException;
@@ -27,9 +28,7 @@ public class KhachHangController extends HttpServlet {
 
     public KhachHangController()
     {
-        this.khRepo = new KhachHangRepository();
-        this.khRepo.insert(new QLKhachHang("PH1", "Ng", "Van", "A", "12-12-2022", "0123123123", "HN", "A", "vi", "hn"));
-        this.khRepo.insert(new QLKhachHang("PH2", "Tr", "Thi", "B", "12-12-2022", "0123123123", "HN", "A", "vi", "hn"));
+        khRepo = new KhachHangRepository();
     }
 
 
@@ -75,7 +74,7 @@ public class KhachHangController extends HttpServlet {
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLKhachHang kh = khRepo.findByMa(ma);
+        KhachHang kh = khRepo.findByMa(ma);
         request.setAttribute("kh", kh);
         request.setAttribute("view", "/views/khach_hang/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
@@ -83,7 +82,7 @@ public class KhachHangController extends HttpServlet {
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLKhachHang kh = khRepo.findByMa(ma);
+        KhachHang kh = khRepo.findByMa(ma);
         khRepo.delete(kh);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/khach-hang/index");
     }
@@ -91,9 +90,9 @@ public class KhachHangController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLKhachHang qlkh = new QLKhachHang();
-            BeanUtils.populate(qlkh, request.getParameterMap());
-            khRepo.insert(qlkh);
+            KhachHang domainModelKH = new KhachHang();
+            BeanUtils.populate(domainModelKH, request.getParameterMap());
+            this.khRepo.insert(domainModelKH);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -104,9 +103,10 @@ public class KhachHangController extends HttpServlet {
     }
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLKhachHang qlkh = new QLKhachHang();
-            BeanUtils.populate(qlkh, request.getParameterMap());
-            khRepo.update(qlkh);
+            String ma = request.getParameter("ma");
+            KhachHang domainModelKH = khRepo.findByMa(ma);
+            BeanUtils.populate(domainModelKH, request.getParameterMap());
+            khRepo.update(domainModelKH);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
