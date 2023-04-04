@@ -16,13 +16,13 @@
         <div class="row mt-3">
             <div class="col-6">
                 <label>Địa chỉ</label>
-                <input type="text" name="dia_chi" class="form-control" value="${ ch.ten_dem }" required/>
+                <input type="text" name="diaChi" class="form-control" value="${ ch.diaChi }" required/>
             </div>
             <div class="col-6">
                 <label>Thành phố</label>
                 <select name="thanh_pho" class="form-select" required>
-                    <option value="hn" ${ ch.thanh_pho == "hn" ? "selected" : "" }>Hà Nội</option>
-                    <option value="ny" ${ ch.thanh_pho == "ny" ? "selected" : "" }>New York</option>
+                    <option value="hn" ${ ch.thanhPho == "hn" ? "selected" : "" }>Hà Nội</option>
+                    <option value="ny" ${ ch.thanhPho == "ny" ? "selected" : "" }>New York</option>
                 </select>
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="col-12">
                 <label>Quốc gia</label>
                 <select name="quoc_gia" class="form-select" required>
-                    <option value="vi" ${ ch.quoc_gia == "vi" ? "selected" : "" }>Việt Nam</option>
-                    <option value="us" ${ ch.quoc_gia == "us" ? "selected" : "" }>Mỹ</option>
+                    <option value="vi" ${ ch.quocGia == "vi" ? "selected" : "" }>Việt Nam</option>
+                    <option value="us" ${ ch.quocGia == "us" ? "selected" : "" }>Mỹ</option>
                 </select>
             </div>
         </div>

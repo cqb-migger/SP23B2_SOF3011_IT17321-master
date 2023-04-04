@@ -1,18 +1,22 @@
 package controllers.admin;
 
+import domain_models.ChucVu;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
+
 import repository.ChucVuRepository;
-import view_model.QLChucVu;
-import view_model.QLKhachHang;
+
+
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 
 @WebServlet({
@@ -30,9 +34,7 @@ public class ChucVuController extends HttpServlet {
 
     public ChucVuController()
     {
-        this.cvRepo = new ChucVuRepository();
-        this.cvRepo.insert(new QLChucVu("PH1", "Tong Thong"));
-        this.cvRepo.insert(new QLChucVu("PH2", "Dan Den"));
+        cvRepo = new ChucVuRepository();
     }
 
 
@@ -77,36 +79,42 @@ public class ChucVuController extends HttpServlet {
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLChucVu cv = cvRepo.findByMa(ma);
+        ChucVu cv = cvRepo.findByMa(ma);
         request.setAttribute("cv", cv);
         request.setAttribute("view", "/views/chuc_vu/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLChucVu cv = cvRepo.findByMa(ma);
+        ChucVu cv = cvRepo.findByMa(ma);
         cvRepo.delete(cv);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/chuc-vu/index");
     }
 
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ma = request.getParameter("ma");
-        String ten = request.getParameter("ten");
+        try {
 
 
 
-        QLChucVu qlcv = new QLChucVu(ma,ten);
-        //Tộ ArrayList & thêm vào
-        cvRepo.insert(qlcv);
-//        System.out.println(list);
+            ChucVu domainModelCV = new ChucVu();
+            BeanUtils.populate(domainModelCV, request.getParameterMap());
+            this.cvRepo.insert(domainModelCV);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/chuc-vu/index");
     }
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLChucVu qlcv = new QLChucVu();
-            BeanUtils.populate(qlcv, request.getParameterMap());
-            cvRepo.update(qlcv);
+
+
+            String ma = request.getParameter("ma");
+            ChucVu domainModelCV = new ChucVu();
+            BeanUtils.populate(domainModelCV, request.getParameterMap());
+            this.cvRepo.update(domainModelCV);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

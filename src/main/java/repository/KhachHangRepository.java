@@ -73,7 +73,7 @@ public class KhachHangRepository {
 
     public KhachHang findByMa(String ma)
     {
-        String hql = "SELECT obj FROM KhachHang obj WHERE obj.Ma = ?1";
+        String hql = "SELECT obj FROM KhachHang obj WHERE obj.ma = ?1";
         TypedQuery<KhachHang> query = this.hSession.createQuery(hql, KhachHang.class);
         query.setParameter(1, ma);
         return query.getSingleResult();

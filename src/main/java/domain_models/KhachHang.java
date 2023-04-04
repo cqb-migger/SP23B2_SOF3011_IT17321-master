@@ -8,7 +8,9 @@ import lombok.Setter;
 import jakarta.persistence.*;
 
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -19,33 +21,36 @@ import java.util.UUID;
 @AllArgsConstructor
 
 @Table(name="KhachHang")
-public class KhachHang {
+public class KhachHang implements Serializable {
     @Id
 //    @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
 //    @GeneratedValue(generator = "generator")
     @Column(name="Id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
     @Column(name="Ma")
-    private String Ma;
+    private String ma;
     @Column(name="Ten")
-    private String Ten;
+    private String ten;
     @Column(name="TenDem")
-    private String TenDem;
+    private String tenDem;
     @Column(name="Ho")
-    private String Ho;
+    private String ho;
     @Column(name="NgaySinh")
-    private Date NgaySinh;
+    private Date ngaySinh;
     @Column(name="Sdt")
-    private String Sdt;
+    private String sdt;
     @Column(name="DiaChi")
-    private String DiaChi;
+    private String diaChi;
     @Column(name="ThanhPho")
-    private String ThanhPho;
+    private String thanhPho;
     @Column(name="QuocGia")
-    private String QuocGia;
+    private String quocGia;
     @Column(name="MatKhau")
-    private String MatKhau;
+    private String matKhau;
+
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    private List<HoaDon> listHoaDon;
 
 
 

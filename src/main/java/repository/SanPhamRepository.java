@@ -77,7 +77,7 @@ public class SanPhamRepository {
 
     public SanPham findByMa(String ma)
     {
-        String hql = "SELECT obj FROM SanPham obj WHERE obj.Ma = ?1";
+        String hql = "SELECT obj FROM SanPham obj WHERE obj.ma = ?1";
         TypedQuery<SanPham> query = this.hSession.createQuery(hql, SanPham.class);
         query.setParameter(1, ma);
         return query.getSingleResult();

@@ -5,12 +5,16 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 import repository.KhachHangRepository;
 
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 
 @WebServlet({
@@ -90,6 +94,11 @@ public class KhachHangController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            DateTimeConverter dateTimeConverter = new DateConverter(new Date());
+            dateTimeConverter.setPattern("yyyy-MM-dd");
+            ConvertUtils.register(dateTimeConverter, Date.class);
+
+
             KhachHang domainModelKH = new KhachHang();
             BeanUtils.populate(domainModelKH, request.getParameterMap());
             this.khRepo.insert(domainModelKH);
@@ -98,11 +107,14 @@ public class KhachHangController extends HttpServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/khach-hang/index");
     }
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            DateTimeConverter dateTimeConverter = new DateConverter(new Date());
+            dateTimeConverter.setPattern("yyyy-MM-dd");
+            ConvertUtils.register(dateTimeConverter, Date.class);
+
             String ma = request.getParameter("ma");
             KhachHang domainModelKH = khRepo.findByMa(ma);
             BeanUtils.populate(domainModelKH, request.getParameterMap());

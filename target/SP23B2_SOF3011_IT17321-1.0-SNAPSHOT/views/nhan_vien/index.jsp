@@ -19,6 +19,8 @@
                 <th>SĐT</th>
                 <th>Địa chỉ</th>
                 <th>Trạng thái</th>
+                <th>Chức vụ</th>
+                <th>Cửa hàng</th>
                 <th colspan="2">Hành động</th>
 
                 </thead>
@@ -27,20 +29,18 @@
                     <tr>
                         <td>${ nv.ma }</td>
                         <td>${ nv.ho }</td>
-                        <td>${ nv.ten_dem}</td>
+                        <td>${ nv.tenDem}</td>
                         <td>${ nv.ten }</td>
-                        <td>${ nv.ngay_sinh }</td>
-                        <td>
-                            <c:if test="${nv.gioi_tinh == 'true'}">Nam</c:if>
-                            <c:if test="${nv.gioi_tinh == 'false'}">Nữ</c:if>
-                        </td>
+                        <td>${ nv.ngaySinh }</td>
+                        <td>${ nv.gioiTinh }</td>
                         <td>${ nv.sdt }</td>
-                        <td>${ nv.dia_chi }</td>
+                        <td>${ nv.diaChi }</td>
                         <td>
-                            <c:if test="${nv.trang_thai == 'true'}">Làm</c:if>
-                            <c:if test="${nv.trang_thai == 'false'}">Nghỉ</c:if>
+                            <c:if test="${nv.trangThai == '0'}">Làm</c:if>
+                            <c:if test="${nv.trangThai == '1'}">Nghỉ</c:if>
                         </td>
-
+                        <td>${ nv.chucVu.ten}</td>
+                        <td>${ nv.cuaHang.ten}</td>
 
                         <td>
                             <a href="/SP23B2_SOF3011_IT17321_war/nhan-vien/edit?ma=${ nv.ma }" class="btn btn-primary">Cập nhật</a>

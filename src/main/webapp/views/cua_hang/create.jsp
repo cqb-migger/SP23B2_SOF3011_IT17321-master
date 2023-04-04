@@ -16,11 +16,11 @@
         <div class="row mt-3">
             <div class="col-6">
                 <label>Địa chỉ</label>
-                <input type="text" name="dia_chi" class="form-control" required />
+                <input type="text" name="diaChi" class="form-control" required />
             </div>
             <div class="col-6">
                 <label>Thành phố</label>
-                <select name="thanh_pho" class="form-select" required>
+                <select name="thanhPho" class="form-select" required>
                     <option value="hn">Hà Nội</option>
                     <option value="ny">New York</option>
                 </select>
@@ -29,7 +29,7 @@
         <div class="row mt-3">
             <div class="col-12">
                 <label>Quốc gia</label>
-                <select name="quoc_gia" class="form-select" required>
+                <select name="quocGia" class="form-select" required>
                     <option value="vi">Việt Nam</option>
                     <option value="us">Mỹ</option>
                 </select>

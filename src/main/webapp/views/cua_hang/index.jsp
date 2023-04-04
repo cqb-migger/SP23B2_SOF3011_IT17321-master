@@ -24,14 +24,14 @@
                     <tr>
                         <td>${ ch.ma }</td>
                         <td>${ ch.ten }</td>
-                        <td>${ ch.dia_chi }</td>
+                        <td>${ ch.diaChi }</td>
                         <<td>
-                        <c:if test ="${ch.thanh_pho == 'hn'}" >Hà Nội</c:if>
-                        <c:if test ="${ch.thanh_pho == 'ny'}" >New York</c:if>
+                        <c:if test ="${ch.thanhPho == 'hn'}" >Hà Nội</c:if>
+                        <c:if test ="${ch.thanhPho == 'ny'}" >New York</c:if>
                     </td>
                         <td>
-                            <c:if test ="${ch.quoc_gia == 'vi'}" >Việt Nam</c:if>
-                            <c:if test ="${ch.quoc_gia == 'us'}" >Mỹ</c:if>
+                            <c:if test ="${ch.quocGia == 'vi'}" >Việt Nam</c:if>
+                            <c:if test ="${ch.quocGia == 'us'}" >Mỹ</c:if>
                         </td>
 
                         <td>

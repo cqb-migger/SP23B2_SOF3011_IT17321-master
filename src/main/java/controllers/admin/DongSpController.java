@@ -1,13 +1,16 @@
 package controllers.admin;
 
+
+import domain_models.DongSp;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
+
 import repository.DongSpRepository;
-import view_model.QLDongSp;
+
 
 
 import java.io.IOException;
@@ -28,8 +31,6 @@ public class DongSpController extends HttpServlet {
     public DongSpController()
     {
         dspRepo = new DongSpRepository();
-        dspRepo.insert(new QLDongSp("PH1", "Tong Thong"));
-        dspRepo.insert(new QLDongSp("PH2", "Dan Den"));
     }
 
     @Override
@@ -72,23 +73,26 @@ public class DongSpController extends HttpServlet {
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLDongSp dsp = dspRepo.findByMa(ma);
+        DongSp dsp = dspRepo.findByMa(ma);
         request.setAttribute("dsp", dsp);
         request.setAttribute("view", "/views/dong_sp/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLDongSp dsp = dspRepo.findByMa(ma);
+        DongSp dsp = dspRepo.findByMa(ma);
         dspRepo.delete(dsp);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/dong-sp/index");
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLDongSp qldsp = new QLDongSp();
-            BeanUtils.populate(qldsp, request.getParameterMap());
-            dspRepo.insert(qldsp);
+
+
+
+            DongSp domainModelDSP = new DongSp();
+            BeanUtils.populate(domainModelDSP, request.getParameterMap());
+            this.dspRepo.insert(domainModelDSP);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -100,9 +104,12 @@ public class DongSpController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLDongSp qldsp = new QLDongSp();
-            BeanUtils.populate(qldsp, request.getParameterMap());
-            dspRepo.update(qldsp);
+
+
+            String ma = request.getParameter("ma");
+            DongSp domainModelDSP = new DongSp();
+            BeanUtils.populate(domainModelDSP, request.getParameterMap());
+            this.dspRepo.insert(domainModelDSP);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

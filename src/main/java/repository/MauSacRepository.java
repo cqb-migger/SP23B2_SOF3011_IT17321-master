@@ -77,7 +77,7 @@ public class MauSacRepository {
 
     public MauSac findByMa(String ma)
     {
-        String hql = "SELECT obj FROM MauSac obj WHERE obj.Ma = ?1";
+        String hql = "SELECT obj FROM MauSac obj WHERE obj.ma = ?1";
         TypedQuery<MauSac> query = this.hSession.createQuery(hql, MauSac.class);
         query.setParameter(1, ma);
         return query.getSingleResult();

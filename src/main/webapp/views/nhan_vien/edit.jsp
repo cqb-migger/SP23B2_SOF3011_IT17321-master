@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="f" uri="jakarta.tags.functions" %>
 
 
 <div class="col-8 offset-2">
@@ -17,7 +19,7 @@
     <div class="row mt-3">
       <div class="col-6">
         <label>Tên đệm</label>
-        <input type="text" name="ten_dem" class="form-control" value="${ nv.ten_dem }" required />
+        <input type="text" name="tenDem" class="form-control" value="${ nv.tenDem }" required />
       </div>
       <div class="col-6">
         <label>Tên</label>
@@ -27,7 +29,7 @@
     <div class="row mt-3">
       <div class="col-6">
         <label>Ngày sinh</label>
-        <input type="date" name="ngay_sinh" class="form-control" value="${ nv.ngay_sinh }" required/>
+        <input type="date" name="ngaySinh" class="form-control" value="${ nv.ngaySinh }" required/>
       </div>
       <div class="col-6">
         <label>SDT</label>
@@ -37,19 +39,36 @@
     <div class="row mt-3">
       <div class="col-6">
         <label>Địa chỉ</label>
-        <input type="text" name="dia_chi" class="form-control" value="${ nv.dia_chi }" required/>
+        <input type="text" name="diaChi" class="form-control" value="${ nv.diaChi }" required/>
       </div>
       <div class="col-6">
         <label>Giới tính</label>
-        <input class="form-check" type="radio" name="gioi_tinh" value="true" checked/>Nam
-        <input class="form-check" type="radio" name="gioi_tinh" value="false"/>Nữ
+        <input type="text" name="gioiTinh" class="form-control" value="${ nv.gioiTinh }" required/>
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-6 row">
         <label>Trạng thái</label>
-        <input class="form-check col-5" type="radio" name="trang_thai" value="true" checked/> <label class="col-1">Làm</label>
-        <input class="form-check col-5" type="radio" name="trang_thai" value="false"/><label class="col-1">Nghỉ</label>
+        <input class="form-check col-5" type="radio" name="trangThai" value="true" checked/> <label class="col-1">Làm</label>
+        <input class="form-check col-5" type="radio" name="trangThai" value="false"/><label class="col-1">Nghỉ</label>
+      </div>
+      <div class="col-6">
+        <label>Chức vụ</label>
+        <select class="form-select" name="idChucVu" >
+          <c:forEach var="cv" items="${ dsChucVu }">
+            <option value="${cv.id}"  ${cv.id == idChucVu ? "selected" : ""}>${cv.ten}</option>
+          </c:forEach>
+        </select>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-6">
+        <label>Cửa Hàng</label>
+        <select class="form-select" name="idCuaHang" >
+          <c:forEach var="ch" items="${ dsCuaHang }">
+            <option value="${ch.id}"  ${ch.id == idCuaHang ? "selected" : ""}>${ch.ten}</option>
+          </c:forEach>
+        </select>
       </div>
     </div>
     <div class="row mt-3">

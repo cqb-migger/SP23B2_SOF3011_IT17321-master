@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,15 +18,19 @@ import java.util.UUID;
 
 
 @Table(name = "MauSac")
-public class MauSac {
+public class MauSac implements Serializable {
     @Id
 //    @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
 //    @GeneratedValue(generator = "generator")
     @Column(name="Id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
     @Column(name="Ma")
-    private String Ma;
+    private String ma;
     @Column(name="Ten")
-    private String Ten;
+    private String ten;
+
+
+    @OneToMany(mappedBy = "mauSac", fetch = FetchType.LAZY)
+    private List<ChiTietSanPham> listChiTietSanPham;
 }

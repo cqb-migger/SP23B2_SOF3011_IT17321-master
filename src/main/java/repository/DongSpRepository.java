@@ -1,47 +1,84 @@
 package repository;
 
 
+
+import domain_models.DongSp;
+import jakarta.persistence.TypedQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import utils.HibernateUtil;
+
 import view_model.QLDongSp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DongSpRepository {
-    private ArrayList<QLDongSp> list = new ArrayList<>();
+    private ArrayList<QLDongSp> list;
+    private Session hSession;
 
-    public DongSpRepository() {
-        list = new ArrayList<>();
+    public DongSpRepository()
+    {
+        this.list = new ArrayList<>();
+        this.hSession = HibernateUtil.getFACTORY().openSession();
+    }
 
-    }
-    public void insert (QLDongSp qldsp){
-        list.add(qldsp);
-    }
-    public void update(QLDongSp qldsp){
-        for (int i = 0; i < list.size() ; i++) {
-            QLDongSp vm = list.get(i);
-            if(vm.getMa().equals(qldsp.getMa())){
-                list.set(i, qldsp);
-            }
-        }
-    }
-    public void delete(QLDongSp qldsp){
-        for (int i = 0; i < list.size() ; i++) {
-            QLDongSp vm = list.get(i);
-            if(vm.getMa().equals(qldsp.getMa())){
-                list.remove(i);
-            }
+    public void insert(DongSp dsp)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.persist(dsp);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
         }
     }
 
-    public ArrayList<QLDongSp> findAll(){
-        return list;
-    }
-    public QLDongSp findByMa(String ma){
-        for (int i = 0; i < list.size() ; i++) {
-            QLDongSp vm = list.get(i);
-            if(vm.getMa().equals(ma)){
-                return list.get(i);
-            }
+    public void update(DongSp dsp)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.merge(dsp);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
         }
-        return null;
+    }
+
+    public void delete(DongSp dsp)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.delete(dsp);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+        }
+    }
+
+    public DongSp findById(String id)
+    {
+        return this.hSession.find(DongSp.class, id);
+    }
+
+    public List<DongSp> findAll()
+    {
+        String hql = "SELECT obj FROM DongSp obj";
+        TypedQuery<DongSp> query = this.hSession.createQuery(hql, DongSp.class);
+        return query.getResultList();
+    }
+
+    public DongSp findByMa(String ma)
+    {
+        String hql = "SELECT obj FROM DongSp obj WHERE obj.ma = ?1";
+        TypedQuery<DongSp> query = this.hSession.createQuery(hql, DongSp.class);
+        query.setParameter(1, ma);
+        return query.getSingleResult();
     }
 }

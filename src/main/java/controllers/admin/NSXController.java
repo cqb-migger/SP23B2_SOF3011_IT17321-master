@@ -1,17 +1,21 @@
 package controllers.admin;
 
+
+import domain_models.NSX;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
+
 import repository.NSXRepository;
-import view_model.QLNSX;
+
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+
 
 @WebServlet({
         "/nsx/index",    // GET
@@ -28,8 +32,6 @@ public class NSXController extends HttpServlet {
     public NSXController()
     {
         nsxRepo = new NSXRepository();
-        nsxRepo.insert(new QLNSX("PH1", "Tong Thong"));
-        nsxRepo.insert(new QLNSX("PH2", "Dan Den"));
     }
 
     @Override
@@ -72,23 +74,25 @@ public class NSXController extends HttpServlet {
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLNSX nsx = nsxRepo.findByMa(ma);
+        NSX nsx = nsxRepo.findByMa(ma);
         request.setAttribute("nsx", nsx);
         request.setAttribute("view", "/views/nsx/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ma = request.getParameter("ma");
-        QLNSX nsx = nsxRepo.findByMa(ma);
+        NSX nsx = nsxRepo.findByMa(ma);
         nsxRepo.delete(nsx);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/nsx/index");
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLNSX qlnsx = new QLNSX();
-            BeanUtils.populate(qlnsx, request.getParameterMap());
-            nsxRepo.insert(qlnsx);
+
+
+            NSX domainModelNSX = new NSX();
+            BeanUtils.populate(domainModelNSX, request.getParameterMap());
+            this.nsxRepo.insert(domainModelNSX);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -100,9 +104,11 @@ public class NSXController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLNSX qlnsx = new QLNSX();
-            BeanUtils.populate(qlnsx, request.getParameterMap());
-            nsxRepo.update(qlnsx);
+
+            String ma = request.getParameter("ma");
+            NSX domainModelNSX = new NSX();
+            BeanUtils.populate(domainModelNSX, request.getParameterMap());
+            this.nsxRepo.insert(domainModelNSX);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
