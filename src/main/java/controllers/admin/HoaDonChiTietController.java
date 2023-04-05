@@ -1,17 +1,25 @@
 package controllers.admin;
 
+import domain_models.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
+import repository.ChiTietSanPhamRepository;
 import repository.HoaDonChiTietRepository;
+import repository.HoaDonRepository;
 import view_model.QLHoaDonChiTiet;
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+import java.util.UUID;
 
 @WebServlet({
         "/hoadon-chitiet/index",    // GET
@@ -25,11 +33,15 @@ import java.lang.reflect.InvocationTargetException;
 public class HoaDonChiTietController extends HttpServlet {
     private HoaDonChiTietRepository hdctRepo;
 
+    private HoaDonRepository hdRepo;
+    private ChiTietSanPhamRepository ctspRepo;
+
     public HoaDonChiTietController()
     {
         hdctRepo = new HoaDonChiTietRepository();
-        hdctRepo.insert(new QLHoaDonChiTiet("PH1", "10","10"));
-        hdctRepo.insert(new QLHoaDonChiTiet("PH2", "10","10"));
+        hdRepo = new HoaDonRepository();
+        ctspRepo =new ChiTietSanPhamRepository();
+
     }
 
     @Override
@@ -66,29 +78,52 @@ public class HoaDonChiTietController extends HttpServlet {
     }
 
     protected void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("dsHoaDon", hdRepo.findAll());
+        request.setAttribute("dsChiTietSanPham", ctspRepo.findAll());
         request.setAttribute("view", "/views/hoadon_ct/create.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ma = request.getParameter("ma");
-        QLHoaDonChiTiet hdct = hdctRepo.findByMa(ma);
+        request.setAttribute("dsHoaDon", hdRepo.findAll());
+        request.setAttribute("dsChiTietSanPham", ctspRepo.findAll());
+
+        UUID id = UUID.fromString(request.getParameter("id"));
+        HoaDonChiTiet hdct = hdctRepo.findByMa(id);
         request.setAttribute("hdct", hdct);
+
+        request.setAttribute("idHoaDon", hdct.getHoaDon().getId());
+        request.setAttribute("idChiTietSanPham", hdct.getChiTietSanPham().getId());
+
         request.setAttribute("view", "/views/hoadon_ct/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ma = request.getParameter("ma");
-        QLHoaDonChiTiet hdct = hdctRepo.findByMa(ma);
+        UUID id = UUID.fromString(request.getParameter("id"));
+        HoaDonChiTiet hdct = hdctRepo.findByMa(id);
         hdctRepo.delete(hdct);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/index");
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLHoaDonChiTiet qlhdct = new QLHoaDonChiTiet();
-            BeanUtils.populate(qlhdct, request.getParameterMap());
-            hdctRepo.insert(qlhdct);
+
+
+            UUID idHoaDon = UUID.fromString(request.getParameter("idHoaDon"));
+            HoaDon hd = new HoaDon();
+            hd.setId(idHoaDon);
+
+            UUID idChiTietSanPham = UUID.fromString(request.getParameter("idChiTietSanPham"));
+            ChiTietSanPham ctsp = new ChiTietSanPham();
+            ctsp.setId(idChiTietSanPham);
+
+
+            HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+            hoaDonChiTiet.setHoaDon(hd);
+            hoaDonChiTiet.setChiTietSanPham(ctsp);
+
+            BeanUtils.populate(hoaDonChiTiet, request.getParameterMap());
+            hdctRepo.insert(hoaDonChiTiet);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -100,9 +135,25 @@ public class HoaDonChiTietController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLHoaDonChiTiet qlhdct = new QLHoaDonChiTiet();
-            BeanUtils.populate(qlhdct, request.getParameterMap());
-            hdctRepo.update(qlhdct);
+
+            UUID id = UUID.fromString(request.getParameter("id"));
+
+
+            UUID idHoaDon = UUID.fromString(request.getParameter("idHoaDon"));
+            HoaDon hd = new HoaDon();
+            hd.setId(idHoaDon);
+
+            UUID idChiTietSanPham = UUID.fromString(request.getParameter("idChiTietSanPham"));
+            ChiTietSanPham ctsp = new ChiTietSanPham();
+            ctsp.setId(idChiTietSanPham);
+
+
+            HoaDonChiTiet hoaDonChiTiet = hdctRepo.findByMa(id);
+            hoaDonChiTiet.setHoaDon(hd);
+            hoaDonChiTiet.setChiTietSanPham(ctsp);
+
+            BeanUtils.populate(hoaDonChiTiet, request.getParameterMap());
+            hdctRepo.update(hoaDonChiTiet);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

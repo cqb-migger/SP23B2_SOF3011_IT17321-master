@@ -1,22 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="f" uri="jakarta.tags.functions" %>
 
 <div class="col-8 offset-2">
   <form method="POST"
-        action="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/update?ma=${hdct.ma}">
+        action="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/update?id=${hdct.hoaDon.id}">
     <div class="row mt-3">
       <div class="col-6">
-        <label>Mã</label>
-        <input type="text" name="ma" class="form-control" value="${hdct.ma}" disabled/>
+        <label>Mã Hóa Đơn</label>
+        <select class="form-select" name="idHoaDon" >
+          <c:forEach var="hd" items="${ dsHoaDon }">
+            <option value="${hd.id}"  ${hd.id == idHoaDon ? "selected" : ""}>${hd.ma}</option>
+          </c:forEach>
+        </select>
       </div>
       <div class="col-6">
         <label>Số lượng</label>
-        <input type="text" name="so_luong" class="form-control" value="${ hdct.so_luong }" required/>
+        <input type="text" name="soLuong" class="form-control" value="${ hdct.soLuong }" required/>
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-12">
+      <div class="col-6">
         <label>Đơn giá</label>
-        <input type="text" name="don_gia" class="form-control" value="${hdct.don_gia}" required/>
+        <input type="text" name="donGia" class="form-control" value="${hdct.donGia}" required/>
+      </div>
+      <div class="col-6">
+        <label>Chi Tiết Sản Phẩm</label>
+        <select class="form-select" name="idChiTietSanPham" >
+          <c:forEach var="ctsp" items="${ dsChiTietSanPham }">
+            <option value="${ctsp.id}" ${ctsp.id == idChiTietSanPham ? "selected" : ""} >${ctsp.moTa}</option>
+          </c:forEach>
+        </select>
       </div>
     </div>
 

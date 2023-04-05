@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +34,7 @@ public class HoaDonChiTiet implements Serializable {
     @Column(name = "SoLuong")
     private int soLuong;
     @Column(name = "DonGia")
-    private float donGia;
+    private BigDecimal donGia;
 
 
 }

@@ -2,47 +2,94 @@ package repository;
 
 
 
+import domain_models.HoaDonChiTiet;
+import domain_models.SanPham;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import utils.HibernateUtil;
 import view_model.QLHoaDonChiTiet;
 
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class HoaDonChiTietRepository {
-    private ArrayList<QLHoaDonChiTiet> list = new ArrayList<>();
+    private ArrayList<QLHoaDonChiTiet> list;
+    private Session hSession;
 
-    public HoaDonChiTietRepository() {
-        list = new ArrayList<>();
+    public HoaDonChiTietRepository()
+    {
+        this.list = new ArrayList<>();
+        this.hSession = HibernateUtil.getFACTORY().openSession();
+    }
 
-    }
-    public void insert (QLHoaDonChiTiet qlhdct){
-        list.add(qlhdct);
-    }
-    public void update(QLHoaDonChiTiet qlhdct){
-        for (int i = 0; i < list.size() ; i++) {
-            QLHoaDonChiTiet vm = list.get(i);
-            if(vm.getMa().equals(qlhdct.getMa())){
-                list.set(i, qlhdct);
-            }
-        }
-    }
-    public void delete(QLHoaDonChiTiet qlhdct){
-        for (int i = 0; i < list.size() ; i++) {
-            QLHoaDonChiTiet vm = list.get(i);
-            if(vm.getMa().equals(qlhdct.getMa())){
-                list.remove(i);
-            }
+    public void insert(HoaDonChiTiet hdct)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.persist(hdct);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
         }
     }
 
-    public ArrayList<QLHoaDonChiTiet> findAll(){
-        return list;
-    }
-    public QLHoaDonChiTiet findByMa(String ma){
-        for (int i = 0; i < list.size() ; i++) {
-            QLHoaDonChiTiet vm = list.get(i);
-            if(vm.getMa().equals(ma)){
-                return list.get(i);
-            }
+    public void update(HoaDonChiTiet hdct)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.save(hdct);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
         }
-        return null;
     }
+
+    public void delete(HoaDonChiTiet hdct)
+    {
+        Transaction transaction = this.hSession.getTransaction();
+        try {
+            transaction.begin();
+            this.hSession.delete(hdct);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+        }
+    }
+
+    public HoaDonChiTiet findById(String id)
+    {
+        return this.hSession.find(HoaDonChiTiet.class, id);
+    }
+
+    public List<HoaDonChiTiet> findAll()
+    {
+        Session session = HibernateUtil.getFACTORY().openSession();
+        String hql = "SELECT obj FROM HoaDonChiTiet obj";
+        TypedQuery<HoaDonChiTiet> query = session.createQuery(hql, HoaDonChiTiet.class);
+        return query.getResultList();
+    }
+
+    public HoaDonChiTiet findByMa(UUID id)
+    {
+        String hql = "SELECT h FROM HoaDonChiTiet h WHERE h.hoaDon.id = ?1";
+        TypedQuery<HoaDonChiTiet> query = this.hSession.createQuery(hql, HoaDonChiTiet.class);
+        query.setParameter(1, id);
+        try {
+            HoaDonChiTiet hdct = query.getSingleResult();
+            return hdct;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

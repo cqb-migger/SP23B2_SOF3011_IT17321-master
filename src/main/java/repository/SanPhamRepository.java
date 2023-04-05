@@ -4,6 +4,7 @@ package repository;
 
 
 import domain_models.SanPham;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -80,7 +81,13 @@ public class SanPhamRepository {
         String hql = "SELECT obj FROM SanPham obj WHERE obj.ma = ?1";
         TypedQuery<SanPham> query = this.hSession.createQuery(hql, SanPham.class);
         query.setParameter(1, ma);
-        return query.getSingleResult();
+        try {
+            SanPham sp = query.getSingleResult();
+            return sp;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

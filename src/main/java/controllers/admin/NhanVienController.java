@@ -78,7 +78,6 @@ public class NhanVienController extends HttpServlet  {
     protected void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("dsNhanVien", nvRepo.findAll());
 
-
         request.setAttribute("view", "/views/nhan_vien/index.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
@@ -91,8 +90,9 @@ public class NhanVienController extends HttpServlet  {
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("dsCuaHang", cvRepo.findAll());
+        request.setAttribute("dsCuaHang", chRepo.findAll());
         request.setAttribute("dsChucVu", cvRepo.findAll());
+
         String ma = request.getParameter("ma");
         NhanVien nv = nvRepo.findByMa(ma);
         request.setAttribute("nv", nv);
@@ -111,6 +111,30 @@ public class NhanVienController extends HttpServlet  {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            String tenDem = request.getParameter("tenDem");
+            String ho = request.getParameter("ho");
+            String gioiTinh = request.getParameter("gioiTinh");
+            String diaChi = request.getParameter("diaChi");
+            String sdt = request.getParameter("sdt");
+            String matKhau = request.getParameter("matKhau");
+
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()||tenDem.trim().isEmpty()||ho.trim().isEmpty()||gioiTinh.trim().isEmpty()||diaChi.trim().isEmpty()||matKhau.trim().isEmpty()||sdt.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/nhan-vien/create");
+                return;
+
+            }
+            if (nvRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/nhan-vien/create");
+                return;
+            }
+
+
+
             DateTimeConverter dateTimeConverter = new DateConverter(new Date());
             dateTimeConverter.setPattern("yyyy-MM-dd");
             ConvertUtils.register(dateTimeConverter, Date.class);
@@ -144,13 +168,26 @@ public class NhanVienController extends HttpServlet  {
         try {
 
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            String tenDem = request.getParameter("tenDem");
+            String ho = request.getParameter("ho");
+            String gioiTinh = request.getParameter("gioiTinh");
+            String diaChi = request.getParameter("diaChi");
+            String sdt = request.getParameter("sdt");
+            String matKhau = request.getParameter("matKhau");
+
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()||tenDem.trim().isEmpty()||ho.trim().isEmpty()||gioiTinh.trim().isEmpty()||diaChi.trim().isEmpty()||matKhau.trim().isEmpty()||sdt.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/nhan-vien/edit?ma=" + ma);
+                return;
+
+            }
+
+
 
             DateTimeConverter dateTimeConverter = new DateConverter(new Date());
             dateTimeConverter.setPattern("yyyy-MM-dd");
             ConvertUtils.register(dateTimeConverter, Date.class);
-
-
-
 
             UUID idChucVu = UUID.fromString(request.getParameter("idChucVu"));
             ChucVu cv = new ChucVu();
@@ -163,15 +200,19 @@ public class NhanVienController extends HttpServlet  {
 
 
 
-            NhanVien domainModelNV = new NhanVien();
+            NhanVien domainModelNV = nvRepo.findByMa(ma);
+            domainModelNV.setChucVu(cv);
+            domainModelNV.setCuaHang(ch);
+
             BeanUtils.populate(domainModelNV, request.getParameterMap());
-            this.nvRepo.update(domainModelNV);
+
+            nvRepo.update(domainModelNV);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-//        System.out.println(list);
+//        System.out.println(list);x`
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/nhan-vien/index");
     }
 }

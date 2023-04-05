@@ -18,6 +18,7 @@ public class QLNhanVien {
     private String ngay_sinh;
     private String dia_chi;
     private String sdt;
+    private String mat_khau;
     private Boolean trang_thai;
 
 

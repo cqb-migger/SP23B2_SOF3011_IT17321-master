@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanUtils;
 
+import org.hibernate.Session;
 import repository.SanPhamRepository;
 
 import view_model.QLSanPham;
@@ -90,20 +92,49 @@ public class SanPhamController extends HttpServlet {
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/san-pham/create");
+                return;
+
+            }
+            if (spRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/san-pham/create");
+                return;
+            }
+
+
             SanPham domainModelSP = new SanPham();
             BeanUtils.populate(domainModelSP, request.getParameterMap());
-            this.spRepo.insert(domainModelSP);
+            spRepo.insert(domainModelSP);
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/san-pham/index");
+
     }
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/san-pham/edit?ma=" + ma);
+                return;
+
+            }
+
+
+
+
             SanPham domainModelSP = spRepo.findByMa(ma);
             BeanUtils.populate(domainModelSP, request.getParameterMap());
             spRepo.update(domainModelSP);

@@ -88,6 +88,20 @@ public class NSXController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/nsx/create");
+                return;
+
+            }
+            if (nsxRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/nsx/create");
+                return;
+            }
+
 
 
             NSX domainModelNSX = new NSX();
@@ -104,8 +118,18 @@ public class NSXController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/nsx/edit?ma=" + ma);
+                return;
+
+            }
+
+
+
+
             NSX domainModelNSX = new NSX();
             BeanUtils.populate(domainModelNSX, request.getParameterMap());
             this.nsxRepo.insert(domainModelNSX);

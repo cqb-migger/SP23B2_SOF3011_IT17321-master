@@ -4,6 +4,8 @@ package repository;
 
 
 import domain_models.MauSac;
+import domain_models.SanPham;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,7 +16,7 @@ import view_model.QLMauSac;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MauSacRepository {
+public class    MauSacRepository {
     private ArrayList<QLMauSac> list;
     private Session hSession;
 
@@ -80,6 +82,12 @@ public class MauSacRepository {
         String hql = "SELECT obj FROM MauSac obj WHERE obj.ma = ?1";
         TypedQuery<MauSac> query = this.hSession.createQuery(hql, MauSac.class);
         query.setParameter(1, ma);
-        return query.getSingleResult();
+        try {
+            MauSac ms = query.getSingleResult();
+            return ms;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

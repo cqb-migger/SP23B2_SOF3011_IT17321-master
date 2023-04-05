@@ -90,6 +90,15 @@ public class MauSacController extends HttpServlet {
     }protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/mau-sac/edit?ma=" + ma);
+                return;
+
+            }
+
+
             MauSac domainModelMS = msRepo.findByMa(ma);
             BeanUtils.populate(domainModelMS, request.getParameterMap());
             msRepo.update(domainModelMS);
@@ -106,6 +115,20 @@ public class MauSacController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/mau-sac/create");
+                return;
+
+            }
+            if (msRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/mau-sac/create");
+                return;
+            }
+
            MauSac domainModelMS = new MauSac();
             BeanUtils.populate(domainModelMS, request.getParameterMap());
             this.msRepo.insert(domainModelMS);

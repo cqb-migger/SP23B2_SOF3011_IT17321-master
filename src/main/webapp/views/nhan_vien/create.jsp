@@ -2,6 +2,13 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="f" uri="jakarta.tags.functions" %>
 
+<c:if test="${not empty sessionScope.errorMessage}">
+    <div class="alert alert-danger" role="alert">
+            ${sessionScope.errorMessage}
+    </div>
+    <% session.removeAttribute("errorMessage"); %>
+</c:if>
+
 <div class="col-8 offset-2">
     <form method="POST"
           action="/SP23B2_SOF3011_IT17321_war/nhan-vien/store">
@@ -71,6 +78,10 @@
                         <option value="${ch.id}" >${ch.ten}</option>
                     </c:forEach>
                 </select>
+            </div>
+            <div class="col-6">
+                <label>Mật Khẩu</label>
+                <input type="text" name="matKhau" class="form-control" required />
             </div>
         </div>
         <div class="row mt-3">

@@ -1,6 +1,8 @@
 package repository;
 
 import domain_models.KhachHang;
+import domain_models.SanPham;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -76,7 +78,13 @@ public class KhachHangRepository {
         String hql = "SELECT obj FROM KhachHang obj WHERE obj.ma = ?1";
         TypedQuery<KhachHang> query = this.hSession.createQuery(hql, KhachHang.class);
         query.setParameter(1, ma);
-        return query.getSingleResult();
+        try {
+            KhachHang kh = query.getSingleResult();
+            return kh;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

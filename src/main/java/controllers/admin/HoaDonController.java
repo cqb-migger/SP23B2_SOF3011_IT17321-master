@@ -1,16 +1,26 @@
 package controllers.admin;
 
+
+import domain_models.HoaDon;
+import domain_models.KhachHang;
+import domain_models.NhanVien;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 import repository.HoaDonRepository;
-import view_model.QLHoaDon;
+import repository.KhachHangRepository;
+import repository.NhanVienRepository;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+import java.util.UUID;
 
 @WebServlet({
         "/hoa-don/index",    // GET
@@ -24,11 +34,16 @@ import java.lang.reflect.InvocationTargetException;
 public class HoaDonController  extends HttpServlet {
     private HoaDonRepository hdRepo;
 
+    private KhachHangRepository khRepo;
+
+    private NhanVienRepository nvRepo;
+
     public HoaDonController()
     {
         hdRepo = new HoaDonRepository();
-        hdRepo.insert(new QLHoaDon("PH1", "12-12-2022","12-12-2022","12-12-2022","12-12-2022","dtt","Hoa","BG","0231212312321"));
-        hdRepo.insert(new QLHoaDon("PH2", "12-12-2022","12-12-2022","12-12-2022","12-12-2022","ctt","Hoa","BG","0231212312321"));
+        khRepo = new KhachHangRepository();
+        nvRepo = new NhanVienRepository();
+
     }
 
     @Override
@@ -65,29 +80,55 @@ public class HoaDonController  extends HttpServlet {
     }
 
     protected void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("dsKhachHang", khRepo.findAll());
+        request.setAttribute("dsNhanVien", nvRepo.findAll());
         request.setAttribute("view", "/views/hoa_don/create.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("dsKhachHang", khRepo.findAll());
+        request.setAttribute("dsNhanVien", nvRepo.findAll());
+
         String ma = request.getParameter("ma");
-        QLHoaDon hd = hdRepo.findByMa(ma);
+        HoaDon hd = hdRepo.findByMa(ma);
         request.setAttribute("hd", hd);
+
+        request.setAttribute("idKhachHang", hd.getKhachHang().getId());
+        request.setAttribute("idNhanVien", hd.getNhanVien().getId());
+
         request.setAttribute("view", "/views/hoa_don/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ma = request.getParameter("ma");
-        QLHoaDon hd = hdRepo.findByMa(ma);
+        UUID id = UUID.fromString(request.getParameter("id"));
+        HoaDon hd = hdRepo.findByMa(String.valueOf(id));
         hdRepo.delete(hd);
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/hoa-don/index");
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLHoaDon qlhd = new QLHoaDon();
-            BeanUtils.populate(qlhd, request.getParameterMap());
-            hdRepo.insert(qlhd);
+            DateTimeConverter dateTimeConverter = new DateConverter(new Date());
+            dateTimeConverter.setPattern("yyyy-MM-dd");
+            ConvertUtils.register(dateTimeConverter, Date.class);
+
+
+            UUID idKhachHang= UUID.fromString(request.getParameter("idKhachHang"));
+            KhachHang kh = new KhachHang();
+            kh.setId(idKhachHang);
+
+            UUID idNhanVien = UUID.fromString(request.getParameter("idNhanVien"));
+            NhanVien nv = new NhanVien();
+            nv.setId(idNhanVien);
+
+
+            HoaDon domainModelHD = new HoaDon();
+            domainModelHD.setKhachHang(kh);
+            domainModelHD.setNhanVien(nv);
+
+            BeanUtils.populate(domainModelHD, request.getParameterMap());
+            hdRepo.insert(domainModelHD);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -99,9 +140,28 @@ public class HoaDonController  extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            QLHoaDon qlhd = new QLHoaDon();
-            BeanUtils.populate(qlhd, request.getParameterMap());
-            hdRepo.update(qlhd);
+            UUID id = UUID.fromString(request.getParameter("id"));
+
+            DateTimeConverter dateTimeConverter = new DateConverter(new Date());
+            dateTimeConverter.setPattern("yyyy-MM-dd");
+            ConvertUtils.register(dateTimeConverter, Date.class);
+
+
+            UUID idKhachHang= UUID.fromString(request.getParameter("idKhachHang"));
+            KhachHang kh = new KhachHang();
+            kh.setId(idKhachHang);
+
+            UUID idNhanVien = UUID.fromString(request.getParameter("idNhanVien"));
+            NhanVien nv = new NhanVien();
+            nv.setId(idNhanVien);
+
+
+            HoaDon domainModelHD = hdRepo.findByMa(String.valueOf(id));
+            domainModelHD.setKhachHang(kh);
+            domainModelHD.setNhanVien(nv);
+
+            BeanUtils.populate(domainModelHD, request.getParameterMap());
+            hdRepo.update(domainModelHD);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

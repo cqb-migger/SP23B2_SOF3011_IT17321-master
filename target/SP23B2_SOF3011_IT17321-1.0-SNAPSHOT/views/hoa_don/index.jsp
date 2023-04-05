@@ -19,6 +19,8 @@
                 <th>Tên người nhận</th>
                 <th>Địa chỉ</th>
                 <th>Sđt</th>
+                <th>Khách Hàng</th>
+                <th>Nhân Viên</th>
                 <th colspan="2">Hành động</th>
 
                 </thead>
@@ -26,21 +28,24 @@
                 <c:forEach var="hd" items="${ dsHoaDon }">
                     <tr>
                         <td>${ hd.ma }</td>
-                        <td>${ hd.ngay_tao }</td>
-                        <td>${ hd.ngay_thanhtoan}</td>
-                        <td>${ hd.ngay_ship }</td>
-                        <td>${ hd.ngay_nhan }</td>
+                        <td>${ hd.ngayTao }</td>
+                        <td>${ hd.ngayThanhToan}</td>
+                        <td>${ hd.ngayShip }</td>
+                        <td>${ hd.ngayNhan }</td>
                         <td>
-                            <c:if test ="${hd.tinh_trang == 'dtt'}" >Đã thanh toán</c:if>
-                            <c:if test ="${hd.tinh_trang == 'ctt'}" >Chưa thanh toán</c:if>
+                            <c:if test ="${hd.tinhTrang == '0'}" >Đã thanh toán</c:if>
+                            <c:if test ="${hd.tinhTrang == '1'}" >Chưa thanh toán</c:if>
                         </td>
-                        <td>${ hd.ten_nguoinhan }</td>
-                        <td>${ hd.dia_chi }</td>
+                        <td>${ hd.tenNguoiNhan }</td>
+                        <td>${ hd.diaChi }</td>
                         <td>${ hd.sdt }</td>
-
+                        <td>${ hd.khachHang.ten }</td>
+                        <td>${ hd.nhanVien.ten }</td>
                         <td>
-                            <a href="/SP23B2_SOF3011_IT17321_war/hoa-don/edit?ma=${ nsx.ma }" class="btn btn-primary">Cập nhật</a>
-                            <a href="/SP23B2_SOF3011_IT17321_war/hoa-don/delete?ma=${ nsx.ma }" class="btn btn-danger">Xóa</a>
+                            <a href="/SP23B2_SOF3011_IT17321_war/hoa-don/edit?ma=${ hd.ma }" class="btn btn-primary">Cập nhật</a>
+                        </td>
+                        <td>
+                            <a href="/SP23B2_SOF3011_IT17321_war/hoa-don/delete?ma=${ hd.ma }" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
                 </c:forEach>

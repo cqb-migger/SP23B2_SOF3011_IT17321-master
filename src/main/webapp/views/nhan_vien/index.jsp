@@ -44,6 +44,9 @@
 
                         <td>
                             <a href="/SP23B2_SOF3011_IT17321_war/nhan-vien/edit?ma=${ nv.ma }" class="btn btn-primary">Cập nhật</a>
+
+                        </td>
+                        <td>
                             <a href="/SP23B2_SOF3011_IT17321_war/nhan-vien/delete?ma=${ nv.ma }" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>

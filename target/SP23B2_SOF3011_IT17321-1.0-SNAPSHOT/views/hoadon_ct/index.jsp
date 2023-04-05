@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="jakarta.tags.functions" %>
 
 <div class="col-8 offset-2">
-        <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/create" class="btn btn-success mt-3">Add hóa đơn</a>
+        <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/create" class="btn btn-success mt-3">Add hóa đơn chi tiết</a>
         <c:if test = "${f:length(dsHoaDonChiTiet) == 0}">
             <h5>ko có dữ liệu</h5>
         </c:if>
@@ -19,14 +19,15 @@
                 <tbody>
                 <c:forEach var="hdct" items="${ dsHoaDonChiTiet }">
                     <tr>
-                        <td>${ hdct.ma }</td>
-                        <td>${ hdct.so_luong }</td>
-                        <td>${ hdct.don_gia}</td>
+                        <td>${ hdct.soLuong }</td>
+                        <td>${ hdct.donGia}</td>
+                        <td>${ hdct.hoaDon.ma}</td>
+                        <td>${ hdct.chiTietSanPham.moTa}</td>
 
 
                         <td>
-                            <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/edit?ma=${ hdct.ma }" class="btn btn-primary">Cập nhật</a>
-                            <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/delete?ma=${ hdct.ma }" class="btn btn-danger">Xóa</a>
+                            <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/edit?id=${ hdct.hoaDon.id }" class="btn btn-primary">Cập nhật</a>
+                            <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/delete?id=${ hdct.hoaDon.id  }" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
                 </c:forEach>
