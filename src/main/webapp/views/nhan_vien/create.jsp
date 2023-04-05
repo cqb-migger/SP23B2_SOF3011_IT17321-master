@@ -72,6 +72,10 @@
                     </c:forEach>
                 </select>
             </div>
+            <div class="col-6">
+                <label>Mật Khẩu</label>
+                <input type="text" name="matKhau" class="form-control" required />
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col-6">

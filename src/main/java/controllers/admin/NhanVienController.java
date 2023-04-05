@@ -91,14 +91,14 @@ public class NhanVienController extends HttpServlet  {
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("dsCuaHang", cvRepo.findAll());
+        request.setAttribute("dsCuaHang", chRepo.findAll());
         request.setAttribute("dsChucVu", cvRepo.findAll());
         String ma = request.getParameter("ma");
         NhanVien nv = nvRepo.findByMa(ma);
         request.setAttribute("nv", nv);
 
-        request.setAttribute("idCuaHang", nv.getCuaHang().getId());
-        request.setAttribute("idChucVu", nv.getChucVu().getId());
+        request.setAttribute("idCuaHang", nvRepo.findIdCuaHangByMa(ma));
+        request.setAttribute("idChucVu", nvRepo.findIdChucVuByMa(ma));
         request.setAttribute("view", "/views/nhan_vien/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
@@ -163,15 +163,20 @@ public class NhanVienController extends HttpServlet  {
 
 
 
-            NhanVien domainModelNV = new NhanVien();
+            NhanVien domainModelNV = nvRepo.findByMa(ma);
+            domainModelNV.setChucVu(cv);
+            domainModelNV.setCuaHang(ch);
+
             BeanUtils.populate(domainModelNV, request.getParameterMap());
-            this.nvRepo.update(domainModelNV);
+//            domainModelNV.setChucVu(cv);
+//            domainModelNV.setCuaHang(ch);
+            nvRepo.update(domainModelNV);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-//        System.out.println(list);
+//        System.out.println(list);x`
         response.sendRedirect("/SP23B2_SOF3011_IT17321_war/nhan-vien/index");
     }
 }
