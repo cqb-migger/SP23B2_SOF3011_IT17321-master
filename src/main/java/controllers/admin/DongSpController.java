@@ -87,6 +87,21 @@ public class DongSpController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/dong-sp/create");
+                return;
+
+            }
+            if (dspRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/dong-sp/create");
+                return;
+            }
+
+
 
 
 
@@ -104,9 +119,18 @@ public class DongSpController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
-
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/dong-sp/edit?ma=" + ma);
+                return;
+
+            }
+
+
+
+
             DongSp domainModelDSP = new DongSp();
             BeanUtils.populate(domainModelDSP, request.getParameterMap());
             this.dspRepo.insert(domainModelDSP);

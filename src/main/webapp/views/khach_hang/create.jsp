@@ -1,11 +1,16 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: tiennh
-  Date: 3/11/23
-  Time: 09:59
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="f" uri="jakarta.tags.functions" %>
+
+
+
+<c:if test="${not empty sessionScope.errorMessage}">
+    <div class="alert alert-danger" role="alert">
+            ${sessionScope.errorMessage}
+    </div>
+    <% session.removeAttribute("errorMessage"); %>
+</c:if>
 
 
 <div class="col-8 offset-2">

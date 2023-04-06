@@ -16,6 +16,7 @@ import repository.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -146,14 +147,24 @@ public class ChiTietSanPhamController extends HttpServlet {
         chiTietSanPham.setMauSac(ms);
         chiTietSanPham.setDongSp(dsp);
 
-        BeanUtils.populate (chiTietSanPham, request.getParameterMap());
-//           int namSX = Integer.parseInt(request.getParameter("namSX"));
-//           String moTa =
+//        BeanUtils.populate (chiTietSanPham, request.getParameterMap());
+           int namSX = Integer.parseInt(request.getParameter("namSX"));
+           String moTa = request.getParameter("moTa");
+           int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
+            BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
+            BigDecimal giaBan = new BigDecimal(request.getParameter("giaBan"));
+
+           chiTietSanPham.setNamSX(namSX);
+           chiTietSanPham.setMoTa(moTa);
+           chiTietSanPham.setSoLuongTon(soLuongTon);
+           chiTietSanPham.setGiaNhap(giaNhap);
+           chiTietSanPham.setGiaBan(giaBan);
+
+
+
 
         ctspRepo.insert(chiTietSanPham);
-    } catch (IllegalAccessException e) {
-        e.printStackTrace();
-    } catch (InvocationTargetException e) {
+    } catch (Exception e) {
         e.printStackTrace();
     }
 
@@ -164,7 +175,7 @@ public class ChiTietSanPhamController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
-            String id = request.getParameter("id");
+            UUID id = UUID.fromString(request.getParameter("id"));
 
             UUID idSanPham = UUID.fromString(request.getParameter("idSanPham"));
             SanPham sp = new SanPham();
@@ -183,17 +194,26 @@ public class ChiTietSanPhamController extends HttpServlet {
             dsp.setId(idDongSP);
 
 
-            ChiTietSanPham chiTietSanPham = ctspRepo.findByMa(UUID.fromString(id));
+            ChiTietSanPham chiTietSanPham = ctspRepo.findByMa(id);
             chiTietSanPham.setSanPham(sp);
             chiTietSanPham.setNsx(nsx);
             chiTietSanPham.setMauSac(ms);
             chiTietSanPham.setDongSp(dsp);
 
-            BeanUtils.populate (chiTietSanPham, request.getParameterMap());
+//            BeanUtils.populate (chiTietSanPham, request.getParameterMap());
+            int namSX = Integer.parseInt(request.getParameter("namSX"));
+            String moTa = request.getParameter("moTa");
+            int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
+            BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
+            BigDecimal giaBan = new BigDecimal(request.getParameter("giaBan"));
+
+            chiTietSanPham.setNamSX(namSX);
+            chiTietSanPham.setMoTa(moTa);
+            chiTietSanPham.setSoLuongTon(soLuongTon);
+            chiTietSanPham.setGiaNhap(giaNhap);
+            chiTietSanPham.setGiaBan(giaBan);
             ctspRepo.update(chiTietSanPham);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //        System.out.println(list);

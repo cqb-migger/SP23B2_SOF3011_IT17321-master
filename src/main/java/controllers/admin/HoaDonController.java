@@ -109,6 +109,23 @@ public class HoaDonController  extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String ma = request.getParameter("ma");
+            String tenNguoiNhan = request.getParameter("tenNguoiNhan");
+            String diaChi = request.getParameter("diaChi");
+            String sdt = request.getParameter("sdt");
+            if (ma.trim().isEmpty()||tenNguoiNhan.trim().isEmpty()||diaChi.trim().isEmpty()||sdt.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/hoa-don/create");
+                return;
+
+            }
+            if (hdRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/hoa-don/create");
+                return;
+            }
+
+
             DateTimeConverter dateTimeConverter = new DateConverter(new Date());
             dateTimeConverter.setPattern("yyyy-MM-dd");
             ConvertUtils.register(dateTimeConverter, Date.class);
@@ -140,7 +157,18 @@ public class HoaDonController  extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            UUID id = UUID.fromString(request.getParameter("id"));
+
+
+            String ma = request.getParameter("ma");
+            String tenNguoiNhan = request.getParameter("tenNguoiNhan");
+            String diaChi = request.getParameter("diaChi");
+            String sdt = request.getParameter("sdt");
+            if (ma.trim().isEmpty()||tenNguoiNhan.trim().isEmpty()||diaChi.trim().isEmpty()||sdt.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/hoa-don/edit?ma=" + ma);
+                return;
+
+            }
 
             DateTimeConverter dateTimeConverter = new DateConverter(new Date());
             dateTimeConverter.setPattern("yyyy-MM-dd");
@@ -156,7 +184,7 @@ public class HoaDonController  extends HttpServlet {
             nv.setId(idNhanVien);
 
 
-            HoaDon domainModelHD = hdRepo.findByMa(String.valueOf(id));
+            HoaDon domainModelHD = hdRepo.findByMa(ma);
             domainModelHD.setKhachHang(kh);
             domainModelHD.setNhanVien(nv);
 

@@ -87,6 +87,24 @@ public class CuaHangController extends HttpServlet {
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            String diaChi = request.getParameter("diaChi");
+            String thanhPho = request.getParameter("thanhPho");
+            String quocGia = request.getParameter("quocGia");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()||diaChi.trim().isEmpty()||thanhPho.trim().isEmpty()||quocGia.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/cua-hang/create");
+                return;
+
+            }
+            if (chRepo.findByMa(ma) != null ){
+                request.getSession().setAttribute("errorMessage", "Trùng mã");
+                response.sendRedirect(request.getContextPath() + "/cua-hang/create");
+                return;
+            }
+
+
 
 
 
@@ -104,9 +122,20 @@ public class CuaHangController extends HttpServlet {
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
-
             String ma = request.getParameter("ma");
+            String ten = request.getParameter("ten");
+            String diaChi = request.getParameter("diaChi");
+            String thanhPho = request.getParameter("thanhPho");
+            String quocGia = request.getParameter("quocGia");
+            if (ma.trim().isEmpty()||ten.trim().isEmpty()||diaChi.trim().isEmpty()||thanhPho.trim().isEmpty()||quocGia.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/cua-hang/edit?ma=" + ma);
+                return;
+
+            }
+
+
+
             CuaHang domainModelCH = new CuaHang();
             BeanUtils.populate(domainModelCH, request.getParameterMap());
             this.chRepo.insert(domainModelCH);

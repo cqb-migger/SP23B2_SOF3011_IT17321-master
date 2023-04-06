@@ -2,6 +2,15 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="f" uri="jakarta.tags.functions" %>
 
+
+
+<c:if test="${not empty sessionScope.errorMessage}">
+  <div class="alert alert-danger" role="alert">
+      ${sessionScope.errorMessage}
+  </div>
+  <% session.removeAttribute("errorMessage"); %>
+</c:if>
+
 <div class="col-8 offset-2">
   <form method="POST"
         action="/SP23B2_SOF3011_IT17321_war/hoa-don/update?ma=${hd.ma}">
@@ -32,7 +41,7 @@
       </div>
       <div class="col-6">
         <label>Tình trạng</label>
-        <select name="tinh_trang" class="form-select" required>
+        <select name="tinhTrang" class="form-select" required>
           <option value="0" ${ hd.tinhTrang == "0" ? "selected" : "" }>Đã thanh toán</option>
           <option value="1" ${ hd.tinhTrang == "1" ? "selected" : "" }>Chưa thanh toán</option>
         </select>

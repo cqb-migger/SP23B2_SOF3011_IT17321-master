@@ -4,6 +4,15 @@
 
 
 
+<c:if test="${not empty sessionScope.errorMessage}">
+    <div class="alert alert-danger" role="alert">
+            ${sessionScope.errorMessage}
+    </div>
+    <% session.removeAttribute("errorMessage"); %>
+</c:if>
+
+
+
 <div class="col-8 offset-2">
     <form method="POST"
           action="/SP23B2_SOF3011_IT17321_war/hoa-don/store">
