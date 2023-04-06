@@ -65,10 +65,10 @@ public class HoaDonChiTietRepository {
         }
     }
 
-    public HoaDonChiTiet findById(String id)
-    {
-        return this.hSession.find(HoaDonChiTiet.class, id);
-    }
+//    public HoaDonChiTiet findById(String id)
+//    {
+//        return this.hSession.find(HoaDonChiTiet.class, id);
+//    }
 
     public List<HoaDonChiTiet> findAll()
     {

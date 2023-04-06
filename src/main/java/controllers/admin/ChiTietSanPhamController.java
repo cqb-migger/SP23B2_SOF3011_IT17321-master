@@ -105,10 +105,10 @@ public class ChiTietSanPhamController extends HttpServlet {
         ChiTietSanPham ctsp = ctspRepo.findByMa(id);
         request.setAttribute("ctsp", ctsp);
 
-        request.setAttribute("idSanPham", ctspRepo.findIdSanPhamById(id));
-        request.setAttribute("idNSX", ctspRepo.findIdNSXById(id));
-        request.setAttribute("idMauSac", ctspRepo.findIdMauSacById(id));
-        request.setAttribute("idDongSP", ctspRepo.findIdDongSpById(id));
+        request.setAttribute("idSanPham", ctsp.getSanPham().getId());
+        request.setAttribute("idNSX", ctsp.getNsx().getId());
+        request.setAttribute("idMauSac", ctsp.getMauSac().getId());
+        request.setAttribute("idDongSP", ctsp.getDongSp().getId());
 
         request.setAttribute("view", "/views/chitiet_sanpham/edit.jsp");
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);

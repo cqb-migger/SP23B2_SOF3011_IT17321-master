@@ -64,10 +64,10 @@ public class DongSpRepository {
         }
     }
 
-    public DongSp findById(String id)
-    {
-        return this.hSession.find(DongSp.class, id);
-    }
+//    public DongSp findById(String id)
+//    {
+//        return this.hSession.find(DongSp.class, id);
+//    }
 
     public List<DongSp> findAll()
     {

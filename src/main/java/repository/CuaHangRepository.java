@@ -65,10 +65,10 @@ public class CuaHangRepository {
         }
     }
 
-    public CuaHang findById(String id)
-    {
-        return this.hSession.find(CuaHang.class, id);
-    }
+//    public CuaHang findById(String id)
+//    {
+//        return this.hSession.find(CuaHang.class, id);
+//    }
 
     public List<CuaHang> findAll()
     {

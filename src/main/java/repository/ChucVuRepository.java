@@ -65,10 +65,10 @@ public class ChucVuRepository {
         }
     }
 
-    public ChucVu findById(String id)
-    {
-        return this.hSession.find(ChucVu.class, id);
-    }
+//    public ChucVu findById(String id)
+//    {
+//        return this.hSession.find(ChucVu.class, id);
+//    }
 
     public List<ChucVu> findAll()
     {

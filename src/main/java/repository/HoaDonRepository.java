@@ -5,7 +5,7 @@ package repository;
 
 import domain_models.HoaDon;
 
-import domain_models.SanPham;
+
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
@@ -65,10 +65,10 @@ public class HoaDonRepository {
         }
     }
 
-    public HoaDon findById(String id)
-    {
-        return this.hSession.find(HoaDon.class, id);
-    }
+//    public HoaDon findById(String id)
+//    {
+//        return this.hSession.find(HoaDon.class, id);
+//    }
 
     public List<HoaDon> findAll()
     {

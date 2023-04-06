@@ -64,10 +64,10 @@ public class ChiTietSanPhamRepository {
         }
     }
 
-    public ChiTietSanPham findById(String id)
-    {
-        return this.hSession.find(ChiTietSanPham.class, id);
-    }
+//    public ChiTietSanPham findById(String id)
+//    {
+//        return this.hSession.find(ChiTietSanPham.class, id);
+//    }
 
     public List<ChiTietSanPham> findAll()
     {
@@ -84,28 +84,28 @@ public class ChiTietSanPhamRepository {
         query.setParameter(1, id);
         return query.getSingleResult();
     }
-        public UUID findIdSanPhamById(UUID id) {
-        Query query = hSession.createQuery("select ctsp.sanPham.id from ChiTietSanPham ctsp where id=:id");
-        query.setParameter("id", id);
-        UUID idSanPham = (UUID) query.getSingleResult();
-        return idSanPham;
-    }
-    public UUID findIdNSXById(UUID id) {
-        Query query = hSession.createQuery("select ctsp.nsx.id from ChiTietSanPham ctsp where id=:id");
-        query.setParameter("id", id);
-        UUID idNSX = (UUID) query.getSingleResult();
-        return idNSX;
-    }
-    public UUID findIdMauSacById(UUID id) {
-        Query query = hSession.createQuery("select ctsp.mauSac.id from ChiTietSanPham ctsp where id=:id");
-        query.setParameter("id", id);
-        UUID idMauSac = (UUID) query.getSingleResult();
-        return idMauSac;
-    }
-    public UUID findIdDongSpById(UUID id) {
-        Query query = hSession.createQuery("select ctsp.dongSp.id from ChiTietSanPham ctsp where id=:id");
-        query.setParameter("id", id);
-        UUID idDongSP = (UUID) query.getSingleResult();
-        return idDongSP;
-    }
+//        public UUID findIdSanPhamById(UUID id) {
+//        Query query = hSession.createQuery("select ctsp.sanPham.id from ChiTietSanPham ctsp where id=:id");
+//        query.setParameter("id", id);
+//        UUID idSanPham = (UUID) query.getSingleResult();
+//        return idSanPham;
+//    }
+//    public UUID findIdNSXById(UUID id) {
+//        Query query = hSession.createQuery("select ctsp.nsx.id from ChiTietSanPham ctsp where id=:id");
+//        query.setParameter("id", id);
+//        UUID idNSX = (UUID) query.getSingleResult();
+//        return idNSX;
+//    }
+//    public UUID findIdMauSacById(UUID id) {
+//        Query query = hSession.createQuery("select ctsp.mauSac.id from ChiTietSanPham ctsp where id=:id");
+//        query.setParameter("id", id);
+//        UUID idMauSac = (UUID) query.getSingleResult();
+//        return idMauSac;
+//    }
+//    public UUID findIdDongSpById(UUID id) {
+//        Query query = hSession.createQuery("select ctsp.dongSp.id from ChiTietSanPham ctsp where id=:id");
+//        query.setParameter("id", id);
+//        UUID idDongSP = (UUID) query.getSingleResult();
+//        return idDongSP;
+//    }
 }
