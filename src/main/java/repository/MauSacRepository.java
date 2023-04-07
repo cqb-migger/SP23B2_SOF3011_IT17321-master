@@ -65,10 +65,10 @@ public class    MauSacRepository {
         }
     }
 
-    public MauSac  findById(String id)
-    {
-        return this.hSession.find(MauSac.class, id);
-    }
+//    public MauSac  findById(String id)
+//    {
+//        return this.hSession.find(MauSac.class, id);
+//    }
 
     public List<MauSac> findAll()
     {

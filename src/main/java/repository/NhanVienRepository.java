@@ -68,10 +68,10 @@ public class NhanVienRepository {
         }
     }
 
-    public NhanVien  findById(String id)
-    {
-        return this.hSession.find(NhanVien.class, id);
-    }
+//    public NhanVien  findById(String id)
+//    {
+//        return this.hSession.find(NhanVien.class, id);
+//    }
 
     public List<NhanVien> findAll()
     {

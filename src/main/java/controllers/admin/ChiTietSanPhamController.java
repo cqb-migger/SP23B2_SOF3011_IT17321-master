@@ -124,6 +124,7 @@ public class ChiTietSanPhamController extends HttpServlet {
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try{
+
         UUID idSanPham = UUID.fromString(request.getParameter("idSanPham"));
         SanPham sp = new SanPham();
         sp.setId(idSanPham);
@@ -176,6 +177,7 @@ public class ChiTietSanPhamController extends HttpServlet {
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
             UUID id = UUID.fromString(request.getParameter("id"));
+
 
             UUID idSanPham = UUID.fromString(request.getParameter("idSanPham"));
             SanPham sp = new SanPham();

@@ -64,10 +64,10 @@ public class SanPhamRepository {
         }
     }
 
-    public SanPham findById(String id)
-    {
-        return this.hSession.find(SanPham.class, id);
-    }
+//    public SanPham findById(String id)
+//    {
+//        return this.hSession.find(SanPham.class, id);
+//    }
 
     public List<SanPham> findAll()
     {

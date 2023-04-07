@@ -61,10 +61,10 @@ public class KhachHangRepository {
         }
     }
 
-    public KhachHang findById(String id)
-    {
-        return this.hSession.find(KhachHang.class, id);
-    }
+//    public KhachHang findById(String id)
+//    {
+//        return this.hSession.find(KhachHang.class, id);
+//    }
 
     public List<KhachHang> findAll()
     {

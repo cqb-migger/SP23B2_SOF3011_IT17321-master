@@ -64,10 +64,10 @@ public class NSXRepository {
         }
     }
 
-    public NSX findById(String id)
-    {
-        return this.hSession.find(NSX.class, id);
-    }
+//    public NSX findById(String id)
+//    {
+//        return this.hSession.find(NSX.class, id);
+//    }
 
     public List<NSX> findAll()
     {

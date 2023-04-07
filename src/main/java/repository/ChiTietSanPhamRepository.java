@@ -4,7 +4,7 @@ package repository;
 
 
 import domain_models.ChiTietSanPham;
-import jakarta.persistence.Query;
+
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
