@@ -10,9 +10,10 @@
         <c:if test = "${f:length(dsHoaDonChiTiet) != 0}">
             <table class="table mt-3">
                 <thead class="table-dark">
-                <th>Mã</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
+                <th>Mã hóa đơn</th>
+                <th>Mô tả chi tiết sản phẩm</th>
                 <th colspan="2">Hành động</th>
 
                 </thead>
@@ -24,9 +25,10 @@
                         <td>${ hdct.hoaDon.ma}</td>
                         <td>${ hdct.chiTietSanPham.moTa}</td>
 
-
                         <td>
                             <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/edit?id=${ hdct.hoaDon.id }" class="btn btn-primary">Cập nhật</a>
+                        </td>
+                        <td>
                             <a href="/SP23B2_SOF3011_IT17321_war/hoadon-chitiet/delete?id=${ hdct.hoaDon.id  }" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>

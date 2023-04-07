@@ -6,6 +6,7 @@ import domain_models.HoaDonChiTiet;
 import domain_models.SanPham;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.HibernateUtil;
@@ -80,7 +81,7 @@ public class HoaDonChiTietRepository {
 
     public HoaDonChiTiet findByMa(UUID id)
     {
-        String hql = "SELECT h FROM HoaDonChiTiet h WHERE h.hoaDon.id = ?1";
+        String hql = "SELECT c FROM HoaDonChiTiet c JOIN c.hoaDon h WHERE h.id = ?1";
         TypedQuery<HoaDonChiTiet> query = this.hSession.createQuery(hql, HoaDonChiTiet.class);
         query.setParameter(1, id);
         try {
@@ -89,7 +90,11 @@ public class HoaDonChiTietRepository {
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;
+        }catch (NonUniqueResultException e) {
+            e.printStackTrace();
+            return null;
         }
+
     }
 
 }

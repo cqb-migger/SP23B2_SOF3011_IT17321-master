@@ -40,6 +40,7 @@ public class ChiTietSanPhamController extends HttpServlet {
 
     private DongSpRepository dspRepo;
 
+
     public ChiTietSanPhamController()
     {
         ctspRepo = new ChiTietSanPhamRepository();
@@ -125,7 +126,18 @@ public class ChiTietSanPhamController extends HttpServlet {
 
         try{
 
-        UUID idSanPham = UUID.fromString(request.getParameter("idSanPham"));
+
+            String moTa = request.getParameter("moTa");
+
+            if (moTa.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/chitiet-sp/create");
+                return;
+
+            }
+
+
+            UUID idSanPham = UUID.fromString(request.getParameter("idSanPham"));
         SanPham sp = new SanPham();
         sp.setId(idSanPham);
 
@@ -148,18 +160,18 @@ public class ChiTietSanPhamController extends HttpServlet {
         chiTietSanPham.setMauSac(ms);
         chiTietSanPham.setDongSp(dsp);
 
-//        BeanUtils.populate (chiTietSanPham, request.getParameterMap());
-           int namSX = Integer.parseInt(request.getParameter("namSX"));
-           String moTa = request.getParameter("moTa");
-           int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
-            BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
-            BigDecimal giaBan = new BigDecimal(request.getParameter("giaBan"));
-
-           chiTietSanPham.setNamSX(namSX);
-           chiTietSanPham.setMoTa(moTa);
-           chiTietSanPham.setSoLuongTon(soLuongTon);
-           chiTietSanPham.setGiaNhap(giaNhap);
-           chiTietSanPham.setGiaBan(giaBan);
+        BeanUtils.populate (chiTietSanPham, request.getParameterMap());
+//           int namSX = Integer.parseInt(request.getParameter("namSX"));
+//           String moTa = request.getParameter("moTa");
+//           int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
+//            BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
+//            BigDecimal giaBan = new BigDecimal(request.getParameter("giaBan"));
+//
+//           chiTietSanPham.setNamSX(namSX);
+//           chiTietSanPham.setMoTa(moTa);
+//           chiTietSanPham.setSoLuongTon(soLuongTon);
+//           chiTietSanPham.setGiaNhap(giaNhap);
+//           chiTietSanPham.setGiaBan(giaBan);
 
 
 
@@ -208,6 +220,13 @@ public class ChiTietSanPhamController extends HttpServlet {
             int soLuongTon = Integer.parseInt(request.getParameter("soLuongTon"));
             BigDecimal giaNhap = new BigDecimal(request.getParameter("giaNhap"));
             BigDecimal giaBan = new BigDecimal(request.getParameter("giaBan"));
+
+            if (moTa.trim().isEmpty()){
+                request.getSession().setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin");
+                response.sendRedirect(request.getContextPath() + "/chitiet-sp/edit?id=" + id);
+                return;
+
+            }
 
             chiTietSanPham.setNamSX(namSX);
             chiTietSanPham.setMoTa(moTa);

@@ -18,6 +18,7 @@ import view_model.QLHoaDonChiTiet;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -152,11 +153,15 @@ public class HoaDonChiTietController extends HttpServlet {
             hoaDonChiTiet.setHoaDon(hd);
             hoaDonChiTiet.setChiTietSanPham(ctsp);
 
-            BeanUtils.populate(hoaDonChiTiet, request.getParameterMap());
+            int soLuong = Integer.parseInt(request.getParameter("soLuong"));
+            BigDecimal donGia = new BigDecimal(request.getParameter("donGia"));
+
+            hoaDonChiTiet.setSoLuong(soLuong);
+            hoaDonChiTiet.setDonGia(donGia);
+
+//            BeanUtils.populate(hoaDonChiTiet, request.getParameterMap());
             hdctRepo.update(hoaDonChiTiet);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //        System.out.println(list);
